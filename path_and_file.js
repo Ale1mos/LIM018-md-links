@@ -18,7 +18,11 @@ const existsRoute = (path) => fs.existsSync(path);
 // }
 // }
 
+const absoluteRoute = (route) => path.isAbsolute(route) ? route : path.resolve(route);
+// console.log(absoluteRoute('main.js'))
+
 // console.log(existRoute('C:/User/L-63/md-links/test/main.js'));
+const extensionPath = (route) => (path.extname(route) === '.md');
 
 const isDirectory = (route) => fs.statSync(route).isDirectory();
 
@@ -31,13 +35,15 @@ const readDirectory = (route) => {
   const directoryRead = docsinDirectory(route);
   const totalFiles = directoryRead.map(element =>{
     const completePaht = path.join(route,element);
-    return isDirectory(completePaht)?readDirectory(completePaht):completePaht;
+    return isDirectory(completePaht)? readDirectory(completePaht): completePaht;
   });
-  const mdFiles = totalFiles.flat().filter(a=>extensionPath(a)===".md");
+  const mdFiles = totalFiles.flat().filter(file=>extensionPath(file));
   return mdFiles;
-}
+};
 
-// console.log(readDirectory('C:/User/L-63/md-links/test/main.js'));
+// console.log(readDirectory('C:/Users/L-63/LIM018-md-links/prueba'));
+// console.log(readDirectory('C:/Users/L-63/LIM018-md-links/test'));
+
 
 
 // CONVERTIR RUTA A ABSOLUTA
@@ -47,8 +53,7 @@ const readDirectory = (route) => {
 // const transformAbsoluteIsRoute = path.resolve('main.js')
 // console.log(transformAbsoluteIsRoute)
 
-const absoluteRoute = (route) => path.isAbsolute(route) ? route : path.resolve(route);
-// console.log(absoluteRoute('main.js'))
+
 
 // const absoluteRoute = function (inputPath){
 //   if(path.isAbsolute(inputPath)){
@@ -62,11 +67,11 @@ const absoluteRoute = (route) => path.isAbsolute(route) ? route : path.resolve(r
 
 //MOSTRAR LA EXTENSIÓN DE UN ARCHIVO
 // const extensionPath = (route) => path.extname(route);
-const extensionPath = (route) => (path.extname(route) === '.md');
 // console.log(extensionPath('C:/User/L-63/md-links/test/main.js'))
 
 const readFile = (route) => fs.readFileSync(route, 'utf-8');
-// console.log(readFile('C:/Users/L-63/md-links/prueba/archivo.md'))
+// console.log(readFile('C:/Users/L-63/LIM018-md-links/prueba/archivo.md'))
+
 
 // const links = (route) => {
 //   console.log("route",route)
@@ -103,7 +108,7 @@ const readFile = (route) => fs.readFileSync(route, 'utf-8');
 
 const links = (route) => {
   // console.log("route",route)
-  pattern = /(\[(.*?)\])?\(http(.*?)\)/gm;
+  const pattern = /(\[(.*?)\])?\(http(.*?)\)/gm;
   const arrayLinks =[];
 
   const linksFile = readFile(route).match(pattern);
@@ -134,7 +139,7 @@ const links = (route) => {
   // console.log("prueba",arrayLinks)
 }
 
-// console.log(links('C:/Users/L-63/md-links/prueba/archivo.md'))
+// console.log("links",links('C:/Users/L-63/LIM018-md-links/prueba/archivo.md'))
 
 // console.log(links('C:/Users/L-63/md-links/archivos-prueba/PRUEBA1.md'))
 
@@ -158,10 +163,10 @@ const validateLinks = (arrayLinks) => {
   }))
 }
 
-// validateLinks(links('C:/Users/L-63/md-links/prueba/archivo.md')).then((response)=> console.log("validateLinks_response",response))
+// validateLinks(links('C:/Users/L-63/LIM018-md-links/prueba/archivo.md')).then((response)=> console.log("validateLinks_response",response))
 
 
-stats = (arrObj) => {
+const stats = (arrObj) => {
   const totalLinks = arrObj.length;
   const uniqueLinks = new Set (arrObj.map(link=>link.href)).size;
 
@@ -198,7 +203,7 @@ stats = (arrObj) => {
 //   }
 // ]))
 
-brokenStats = (stat,arrObj) => {
+const brokenStats = (stat,arrObj) => {
   const broken = arrObj.filter(link => link.ok === 'Fail');
   stat.brokenLinks = broken.length;
   // console.log("stat",stat.Broken)
@@ -234,7 +239,10 @@ module.exports ={
   absoluteRoute,
   readFile,
   links,
-  validateLinks
+  readDirectory,
+  validateLinks,
+  stats,
+  brokenStats
 }
 
 
