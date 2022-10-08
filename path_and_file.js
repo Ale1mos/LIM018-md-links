@@ -9,14 +9,6 @@ const axios = require('axios');
 
 const existsRoute = (path) => fs.existsSync(path);
 // console.log(existsRoute(existsRoute,'C:/Users/L-63/md-links/test/main.js'))
-// ESTO NO SE HA EXPORTADO
-// const existRoute = function(path){
-// if(fs.existsSync(path)){
-//   return path;
-// }else{
-//   return "error 404 (la ruta no existe)";
-// }
-// }
 
 const absoluteRoute = (route) => path.isAbsolute(route) ? route : path.resolve(route);
 // console.log(absoluteRoute('main.js'))
@@ -42,69 +34,11 @@ const readDirectory = (route) => {
 };
 
 // console.log(readDirectory('C:/Users/L-63/LIM018-md-links/prueba'));
-// console.log(readDirectory('C:/Users/L-63/LIM018-md-links/test'));
-
-
-
-// CONVERTIR RUTA A ABSOLUTA
-// const absoluteIsRoute = path.isAbsolute('C:/User/L-63/md-links/test/main.js')
-// console.log(absoluteIsRoute)
-
-// const transformAbsoluteIsRoute = path.resolve('main.js')
-// console.log(transformAbsoluteIsRoute)
-
-
-
-// const absoluteRoute = function (inputPath){
-//   if(path.isAbsolute(inputPath)){
-//     return inputPath;
-//   }else{
-//     return path.resolve(inputPath);
-//   }
-// };
-// console.log(absoluteRoute('C:/User/L-63/md-links/test/main.js'))
-
-
-//MOSTRAR LA EXTENSIÓN DE UN ARCHIVO
-// const extensionPath = (route) => path.extname(route);
-// console.log(extensionPath('C:/User/L-63/md-links/test/main.js'))
+// console.log(readDirectory('C:/Users/L-63/LIM018-md-links/prueba/archivo.md'));
+// console.log("readDirectory",readDirectory('C:/Users/L-63/LIM018-md-links/test'));
 
 const readFile = (route) => fs.readFileSync(route, 'utf-8');
 // console.log(readFile('C:/Users/L-63/LIM018-md-links/prueba/archivo.md'))
-
-
-// const links = (route) => {
-//   console.log("route",route)
-//   pattern = /(\[(.*?)\])?\(http(.*?)\)/gm;
-//   const arrayLinks =[];
-
-//   const linksFile = readFile(route).match(pattern);
-//   console.log("linksFile",linksFile)
-//   if(linksFile === null){
-//     return [];
-//   }
-//   linksFile.forEach((elem)=>{
-//     const parentheses = /\(([^)]+)\)/;
-//     const matchHttp = parentheses.exec(elem);
-//     const href = matchHttp[1];
-//     const text = elem.slice(1, elem.indexOf(']'));
-//     const correctText = text.length > 50 ? text.slice(0, 51) : text;
-//     console.log("correctText",correctText)
-
-//     const file = route;
-
-//     const link = {
-//       href,
-//       text: correctText,
-//       file
-//     };
-//     arrayLinks.push(link);
-//   })
-//   return arrayLinks;
-//   console.log("prueba",arrayLinks)
-// }
-
-// console.log(links('C:/Users/L-63/md-links/prueba/archivo.md'))
 
 const links = (route) => {
   // console.log("route",route)
@@ -119,7 +53,7 @@ const links = (route) => {
       const matchHttp = parentheses.exec(elem);
       const href = matchHttp[1];
       const text = elem.slice(1, elem.indexOf(']'));
-      const correctText = text.length > 50 ? text.slice(0, 51) : text;
+      const correctText = text.length > 50 ? text.slice(0, 50) : text;
       // console.log("correctText",correctText)
   
       const file = route;
@@ -165,16 +99,28 @@ const validateLinks = (arrayLinks) => {
 
 // validateLinks(links('C:/Users/L-63/LIM018-md-links/prueba/archivo.md')).then((response)=> console.log("validateLinks_response",response))
 
+// const stats = (arrObj) => {
+//   const totalLinks = arrObj.length;
+//   const uniqueLinks = new Set (arrObj.map(link=>link.href)).size;
 
-const stats = (arrObj) => {
+//   return{
+//     totalLinks,
+//     uniqueLinks
+//   };
+
+  // result = {};
+  // const totalLinks = arrObj.map(a=>a.href);
+  // const uniqueLinks = [...new Set(totalLinks)];
+
+  // result.Total = totalLinks.length;
+  // result.unique = uniqueLinks.length;
+  // return result;
+// };
+
+const totalLinks = (arrObj) => {
   const totalLinks = arrObj.length;
-  const uniqueLinks = new Set (arrObj.map(link=>link.href)).size;
-
-  return{
-    totalLinks,
-    uniqueLinks
-  };
-
+  return totalLinks;
+    
   // result = {};
   // const totalLinks = arrObj.map(a=>a.href);
   // const uniqueLinks = [...new Set(totalLinks)];
@@ -184,6 +130,10 @@ const stats = (arrObj) => {
   // return result;
 };
 
+const uniqueLinks = (arrObj) =>{
+  const uniqueLinks = new Set (arrObj.map(link=>link.href)).size;
+  return uniqueLinks
+};
 // console.log(stats())
 
 // console.log("stats",stats([
@@ -203,7 +153,7 @@ const stats = (arrObj) => {
 //   }
 // ]))
 
-const brokenStats = (stat,arrObj) => {
+const brokenLinks = (stat,arrObj) => {
   const broken = arrObj.filter(link => link.ok === 'Fail');
   stat.brokenLinks = broken.length;
   // console.log("stat",stat.Broken)
@@ -241,8 +191,10 @@ module.exports ={
   links,
   readDirectory,
   validateLinks,
-  stats,
-  brokenStats
+  // stats,
+  totalLinks,
+  uniqueLinks,
+  brokenLinks
 }
 
 
