@@ -130,34 +130,36 @@ const totalLinks = (arrObj) => {
   // return result;
 };
 
+// console.log(totalLinks([1,2,3,4]))
+
 const uniqueLinks = (arrObj) =>{
   const uniqueLinks = new Set (arrObj.map(link=>link.href)).size;
   return uniqueLinks
 };
 // console.log(stats())
 
-// console.log("stats",stats([
-//   {
-//     href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter',     
-//     text: 'Array.prototype.filter() - MDN',
-//     file: 'C:/Users/L-63/md-links/prueba/archivo.md',
-//     status: 200,
-//     message: 'OK'
-//   },
-//   {
-//     href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter',     
-//     text: 'Array.prototype.filter() - MDN',
-//     file: 'C:/Users/L-63/md-links/prueba/archivo.md',
-//     status: 200,
-//     message: 'OK'
-//   }
-// ]))
+console.log("stats",uniqueLinks([
+  {
+    href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter',     
+    text: 'Array.prototype.filter() - MDN',
+    file: 'C:/Users/L-63/md-links/prueba/archivo.md',
+    status: 200,
+    message: 'OK'
+  },
+  {
+    href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter',     
+    text: 'Array.prototype.filter() - MDN',
+    file: 'C:/Users/L-63/md-links/prueba/archivo.md',
+    status: 200,
+    message: 'OK'
+  }
+]))
 
-const brokenLinks = (stat,arrObj) => {
-  const broken = arrObj.filter(link => link.ok === 'Fail');
-  stat.brokenLinks = broken.length;
+const brokenLinks = (arrObj) => {
+  const broken = arrObj.filter(link => link.message === 'fail');
+  // stat.brokenLinks = broken.length;
   // console.log("stat",stat.Broken)
-  return stat;
+  return broken.length;
   // brokenLink = broken.length;
   // return brokenLink;
   // return broken.length;
@@ -165,23 +167,25 @@ const brokenLinks = (stat,arrObj) => {
 };
 // por que en la terminal figura 0 archivos rotos?
 
-// console.log("brokenStats",brokenStats(stats([
-//   {
-//     href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduc', 
-//     text: 'Array.prototype.reduce() - MDN',
-//     file: 'C:/Users/L-63/md-links/prueba/archivo.md',
-//     status: 502,
-//     message: 'fail'
-//   }
-// ]),[
-//   {
-//     href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduc', 
-//     text: 'Array.prototype.reduce() - MDN',
-//     file: 'C:/Users/L-63/md-links/prueba/archivo.md',
-//     status: 502,
-//     message: 'fail'
-//   }
-// ]))
+
+
+
+console.log("brokenLinks",brokenLinks([
+  {
+    href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduc', 
+    text: 'Array.prototype.reduce() - MDN',
+    file: 'C:/Users/L-63/md-links/prueba/archivo.md',
+    status: 502,
+    message: 'fail'
+  },
+  {
+    href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduc', 
+    text: 'Array.prototype.reduce() - MDN',
+    file: 'C:/Users/L-63/md-links/prueba/archivo.md',
+    status: 502,
+    message: 'fail'
+  }
+]))
 
 module.exports ={
   existsRoute,

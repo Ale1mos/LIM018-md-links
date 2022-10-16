@@ -7,8 +7,7 @@ const{
   links,
   validateLinks,
   readDirectory,
-  stats,
-  brokenStats
+  
 } = require("./path_and_file.js")
 
 const mdLinks = (path, options) => {
@@ -26,24 +25,8 @@ const mdLinks = (path, options) => {
       if(options.validate === true){
         // return result.push(validateLinks(links(path)));
         resolve(validateLinks(result.flat()));
-      
-      // if(options.stats === true){
-      //   return result.push(validateLinks(links(path)).then((result)=>stats(result)))
-      // }
-      // if(options.stats === true && options.validate === true){
-      //   return result.push(validateLinks(links(path)).then((result)=>brokenStats(stats(result),result)))
-      // }
-
-
-      // resolve(links(path));
-      // const arrayLinks = links(route);
-      // arrayLinks.forEach(link=>{
-      //   result.push(link)
-        
-      // })
-// validar los links
-      
       }
+      resolve(links(path));
     // resolve(Promise.all(result))
   })
 }
@@ -60,27 +43,27 @@ module.exports = mdLinks;
 
 // const absoluteRoute = absoluteRoute(path)
 
-const mdLinks = (path, options) => {
-  // console.log("valor de option", options);
-  return new Promise((resolve, reject) => {
-    if (!checkPathExists(path)) {
-      reject("The path entered is not valid. Please enter a valid Path");
-    }
+// const mdLinks = (path, options) => {
+//   // console.log("valor de option", options);
+//   return new Promise((resolve, reject) => {
+//     if (!checkPathExists(path)) {
+//       reject("The path entered is not valid. Please enter a valid Path");
+//     }
 
-    const absolutePath = convertToAbsolutePath(path);
-    // console.log(absolutePath);
-    const arrayFilesmd = throughOpenDirectory(absolutePath);
-    //console.log(arrayFilesmd);
-    const arrayFindLink = [];
+//     const absolutePath = convertToAbsolutePath(path);
+//     // console.log(absolutePath);
+//     const arrayFilesmd = throughOpenDirectory(absolutePath);
+//     //console.log(arrayFilesmd);
+//     const arrayFindLink = [];
 
-    arrayFilesmd.forEach((path) => {
-      arrayFindLink.push(findLinks(path));
-      //console.log('sin inter', arrayFindLink);
-    });
+//     arrayFilesmd.forEach((path) => {
+//       arrayFindLink.push(findLinks(path));
+//       //console.log('sin inter', arrayFindLink);
+//     });
 
-    if (options.validate === true) {
-      resolve(getStatusLinks(arrayFindLink.flat()));
-    }
-    resolve(findLinks(path));
-  });
-};
+//     if (options.validate === true) {
+//       resolve(getStatusLinks(arrayFindLink.flat()));
+//     }
+//     resolve(findLinks(path));
+//   });
+// };

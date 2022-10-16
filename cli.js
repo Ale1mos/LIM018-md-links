@@ -13,37 +13,37 @@ mdLinks(pathArg,{stats:isStats,validate:isvalidate})
     if(isvalidate && isStats){
       console.log(`
       VALIDATE AND STATS
-      Total Links: ${(totalLinks(a))};
-      Unique Links: ${uniqueLinks(a)};
-      Broken Links: ${brokenLinks(a)};
+      Total Links: ${totalLinks(arrayFiles)};
+      Unique Links: ${uniqueLinks(arrayFiles)};
+      Broken Links: ${brokenLinks(arrayFiles)};
       `);
     }else if(!isvalidate && isStats){
       console.log(`
-      VALIDATE AND STATS
-      Total Links: ${(totalLinks(a))};
-      Unique Links: ${uniqueLinks(a)};
+      STATS
+      Total Links: ${totalLinks(arrayFiles)};
+      Unique Links: ${uniqueLinks(arrayFiles)};
       `);
     }else{
       arrayFiles.forEach(element => {
         if(!isvalidate && !isStats){
           console.log(`
           INFO LINKS
-          href:${(element.href)}
-          text:${(element.text)}
-          file:${(element.file)}
+          href: ${(element.href)}
+          text: ${(element.text)}
+          file: ${(element.file)}
           `)
         }else{
           console.log(`
-          INFO LINKS
-          ${(element.href)}
-          ${(element.text)}
-          ${(element.file)}
-          ${
+          STATUS LINKS
+          href: ${(element.href)}
+          text: ${(element.text)}
+          file: ${(element.file)}
+          message: ${
             element.message === "OK"
               ? (element.message)
               : (element.message)
           }
-          ${(element.status)}
+          status: ${(element.status)}
           `)
         }
       });  

@@ -36,20 +36,20 @@ describe('extension path',()=>{
   });
 })
 
-describe('find link',()=>{
-  it('should return find link', () => {
-    const linksArray = pathAndFile.links('C:/Users/L-63/md-links/prueba/archivo.md');
+describe('find links',()=>{
+  it('should return find links', () => {
+    const linksArray = pathAndFile.links('C:/Users/L-63/LIM018-md-links/prueba/archivo.md');
     // const path = 'C:/Users/L-63/md-links/prueba/archivo.md';
     const response = [
       {
         href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter',     
         text: 'Array.prototype.filter() - MDN',
-        file: 'C:/Users/L-63/md-links/prueba/archivo.md'
+        file: 'C:/Users/L-63/LIM018-md-links/prueba/archivo.md'
       },
       {
         href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce',     
         text: 'Array.prototype.reduce() - MDN',
-        file: 'C:/Users/L-63/md-links/prueba/archivo.md'
+        file: 'C:/Users/L-63/LIM018-md-links/prueba/archivo.md'
       }
     ]
     // expect(links(path)).toEqual(response)
@@ -57,10 +57,9 @@ describe('find link',()=>{
   });
 })
 
-describe('stats',()=>{
-  it('should return stats', () => {
+describe('totalLinks',()=>{
+  it('should return totalLinks', () => {
     // const links = pathAndFile.links('C:/Users/L-63/md-links/prueba/archivo.md');
-
     const response = [
       {
         href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce',
@@ -68,30 +67,26 @@ describe('stats',()=>{
         file: 'C:/Users/L-63/md-links/prueba/archivo.md'
       }
     ]
-
-    const result = {totalLinks:1, uniqueLinks:1};
-    
-    expect(stats(response)).toEqual(result)
-    
+  
+    expect(pathAndFile.totalLinks(response)).toEqual(1)
     // expect(links).toBe(response)
   });
 })
 
-describe('brokenstats',()=>{
-  it('should return brokenstats', () => {
+describe('brokenLinks',()=>{
+  it('should return brokenLinks', () => {
     
     const response = [
       {
-        href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce',
+        href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduc', 
         text: 'Array.prototype.reduce() - MDN',
-        file: 'C:/Users/L-63/md-links/prueba/archivo.md'
+        file: 'C:/Users/L-63/md-links/prueba/archivo.md',
+        status: 502,
+        message: 'fail'
       }
     ]
 
-    const resultStat = stats(response);
-    const resultBroken = {totalLinks:1, uniqueLinks:1, brokenLinks:0};
-    
-    expect(brokenStats(resultStat,response)).toEqual(resultBroken)
+    expect(pathAndFile.brokenLinks(response)).toEqual(1)
     
   });
 })
